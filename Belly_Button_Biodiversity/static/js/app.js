@@ -7,17 +7,17 @@ function buildMetadata(sample) {
 
   // Fetch the JSON data and console log it
   d3.json(url).then(function(sampledata) {   
-  });
- 
-  // Use d3 to select the panel with id of `#sample-metadata` 
-  var sample_metadata = d3.select("#sample-metadata")
+    
+    // Use d3 to select the panel with id of `#sample-metadata` 
+    var sample_metadata = d3.select("#sample-metadata")
     // Use `.html("") to clear any existing metadata
-    selector.html("");
+    sample_metadata.html("");
     // Use `Object.entries` to add each key and value pair to the panel
     Object.entries(sampledata).forEach(function ([key,value]){
-      var row = sample_metadata.append("panel");
+      var row = sample_metadata.append("p");
       row.text(`${key}: ${value}`);
-         });
+    });
+  });
     // Hint: Inside the loop, you will need to use d3 to append new
     // tags for each key-value in the metadata.
 
@@ -34,47 +34,48 @@ function buildCharts(sample) {
       // NEED CODE 
 
 
-    });
-    // @TODO: Build a Bubble Chart using the sample data
-    var xval = plotdata.otu_ids;
-    var yval = plotdata.sample_values;
-    var msize = plotdata.sample_values;
-    var mcolor = plotdata.otu_ids;
-    var tval = plotdata.otu_labels;
-
-    var trace1 ={
-      x:xval,
-      y:yval,
-      text:tval,
-      mode:'markers',
-      marker:{
-        color:mcolor,
-        size:msize
-      }
-    };
-    var data = [trace1];
-
-    var layout = {
-      title: 'OTU ID'
+      // @TODO: Build a Bubble Chart using the sample data
+      var xval = plotdata.otu_ids;
+      var yval = plotdata.sample_values;
+      var msize = plotdata.sample_values;
+      var mcolor = plotdata.otu_ids;
+      var tval = plotdata.otu_labels;
       
-     };
-
-    Plotly.newPlot('bubble', data, layout);
-    // // @TODO: Build a Pie Chart
-
-    var data = [{
-      values: [0, 1, 30, 40],
-      labels: ["Spotify", "Soundcloud", "Pandora", "Itunes"],
-      type: "pie"
-    }];
-  
-    var layout = {
-      height: 600,
-      width: 800
-    };
-  
-    Plotly.plot("pie", data, layout);
-
+      var trace1 ={
+        x:xval,
+        y:yval,
+        text:tval,
+        mode:'markers',
+        marker:{
+          color:mcolor,
+          size:msize
+        }
+      };
+      var bubbledata = [trace1];
+      
+      var bubblelayout = {
+        title: 'OTU ID',
+        // height: 600,
+        // width: 800,
+      };
+      
+      Plotly.newPlot('bubble', bubbledata, bubblelayout);
+      // // @TODO: Build a Pie Chart
+      
+      var data = [{
+        values: yval.slice(0,10), 
+        labels: mcolor.slice (0,10),
+        type: "pie"
+      }];
+      
+      var layout = {
+        height: 600,
+        width: 800
+      };
+      
+      Plotly.plot("pie", data, layout);
+    });
+      
     // HINT: You will need to use slice() to grab the top 10 sample_values,
     // otu_ids, and labels (10 each).
 }
