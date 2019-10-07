@@ -48,7 +48,8 @@ function buildCharts(sample) {
         mode:'markers',
         marker:{
           color:mcolor,
-          size:msize
+          size:msize,
+          colorscale:"Rainbow" 
         }
       };
       var bubbledata = [trace1];
